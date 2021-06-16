@@ -72,7 +72,7 @@ export function isDataExpired(keyPacket, signature, date = new Date()) {
   const normDate = util.normalizeDate(date);
   if (normDate !== null) {
     const expirationTime = getKeyExpirationTime(keyPacket, signature);
-    return !(keyPacket.created <= normDate && normDate <= expirationTime);
+    return !(keyPacket.created <= normDate && normDate < expirationTime);
   }
   return false;
 }
@@ -201,7 +201,7 @@ export async function createSignaturePacket(dataToSign, privateKey, signingKeyPa
     throw new Error('Cannot sign with a gnu-dummy key.');
   }
   if (!signingKeyPacket.isDecrypted()) {
-    throw new Error('Private key is not decrypted.');
+    throw new Error('Signing key is not decrypted.');
   }
   const signaturePacket = new SignaturePacket();
   Object.assign(signaturePacket, signatureProperties);
@@ -217,7 +217,7 @@ export async function createSignaturePacket(dataToSign, privateKey, signingKeyPa
  * @param {Object} dest
  * @param {String} attr
  * @param {Date} [date] - date to use for signature expiration check, instead of the current time
- * @param {(SignaturePacket) => Boolean} [checkFn] - signature only merged if true
+ * @param {Function} [checkFn] - signature only merged if true
  */
 export async function mergeSignatures(source, dest, attr, date = new Date(), checkFn) {
   source = source[attr];
@@ -247,7 +247,7 @@ export async function mergeSignatures(source, dest, attr, date = new Date(), che
  * @param  {PublicSubkeyPacket|
  *          SecretSubkeyPacket|
  *          PublicKeyPacket|
- *          SecretKeyPacket} key, optional The key packet to check the signature
+ *          SecretKeyPacket} key, optional The key packet to verify the signature, instead of the primary key
  * @param {Date} date - Use the given date instead of the current time
  * @param {Object} config - Full configuration
  * @returns {Promise<Boolean>} True if the signature revokes the data.
