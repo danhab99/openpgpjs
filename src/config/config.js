@@ -19,7 +19,7 @@
  * Global configuration values.
  */
 
-import enums from '../enums';
+import enums from "../enums";
 
 export default {
   /**
@@ -190,11 +190,24 @@ export default {
    * @memberof module:config
    * @property {Set<Integer>} rejectMessageHashAlgorithms {@link module:enums.hash}
    */
-  rejectMessageHashAlgorithms: new Set([enums.hash.md5, enums.hash.ripemd, enums.hash.sha1]),
+  rejectMessageHashAlgorithms: new Set([
+    enums.hash.md5,
+    enums.hash.ripemd,
+    enums.hash.sha1,
+  ]),
   /**
    * Reject insecure public key algorithms for message encryption, signing or verification
    * @memberof module:config
    * @property {Set<Integer>} rejectPublicKeyAlgorithms {@link module:enums.publicKey}
    */
-  rejectPublicKeyAlgorithms: new Set([enums.publicKey.elgamal, enums.publicKey.dsa])
+  rejectPublicKeyAlgorithms: new Set([
+    enums.publicKey.elgamal,
+    enums.publicKey.dsa,
+  ]),
+  /**
+   * Disable time checking
+   * @memberof module:config
+   * @property {Set<Boolean>} ignoreTime
+   */
+  ignoreTime: false,
 };
