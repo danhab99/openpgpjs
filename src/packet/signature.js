@@ -702,8 +702,8 @@ class SignaturePacket {
       }
     }
 
-    const normDate = util.normalizeDate(defaultConfig.ignoreTime ? null : date);
-    if (normDate && this.created > normDate) {
+    const normDate = util.normalizeDate(date);
+    if (!defaultConfig.ignoreTime && normDate && this.created > normDate) {
       throw new Error('Signature creation time is in the future');
     }
     if (normDate && normDate >= this.getExpirationTime()) {
