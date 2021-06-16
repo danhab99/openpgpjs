@@ -301,6 +301,7 @@ interface Config {
   commentString: string;
   allowInsecureDecryptionWithSigningKeys: boolean;
   v5Keys: boolean;
+  ignoreTime: boolean;
 }
 export var config: Config;
 
